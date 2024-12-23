@@ -5,9 +5,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./downloads:/app/downloads
+    container_name: youtube_downloader
+    working_dir: /app
     environment:
       - FLASK_ENV=production
+    ports:
+      - "5000:5000"  # Map container port 5000 to host port 5000
+    volumes:
+      - downloads:/app/downloads  # Persist downloads on the host machine
+    entrypoint: >
+      /bin/bash -c "
+      git clone https://github.com/Emeraldfalco/YT-Video-Downloader-Thing.git /app &&
+      cd /app &&
+      pip install --no-cache-dir -r requirements.txt &&
+      python app.py
+      "
+
+volumes:
+  downloads:
