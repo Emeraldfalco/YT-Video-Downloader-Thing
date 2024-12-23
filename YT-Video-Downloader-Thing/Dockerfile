@@ -10,14 +10,15 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory
 WORKDIR /app
 
-# Copy files (if any local files are required)
-# COPY . .
-
 # Install Python dependencies
-RUN pip install --no-cache-dir Flask Flask-Cors yt-dlp
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code
+COPY . .
 
 # Expose the port
 EXPOSE 5000
 
-# Entry point to run the application
-CMD ["/bin/bash"]
+# Run the application
+CMD ["python", "app.py"]
