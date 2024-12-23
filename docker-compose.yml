@@ -2,14 +2,19 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: python:3.10-slim  # Use an official Python image
     container_name: yt_video_downloader_app  # Replace with a name for your app
     ports:
       - "5000:5000"  # Maps port 5000 in the container to port 5000 on the host
     volumes:
-      - .:/app  # Mounts the current directory to the container (optional in this case)
+      - .:/app  # Mounts the current directory to the container
     environment:
       - FLASK_ENV=development  # Optional: Set environment variable for Flask or your app
+    command: >
+      sh -c "git clone https://github.com/Emeraldfalco/YT-Video-Downloader-Thing.git /app && 
+             cd /app && 
+             pip install --no-cache-dir -r requirements.txt && 
+             python app.py"
     restart: unless-stopped  # Restart the container unless explicitly stopped
     networks:
       - casaos_network  # Use a predefined CasaOS network, adjust if needed
