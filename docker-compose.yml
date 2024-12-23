@@ -1,17 +1,19 @@
 version: '3.8'
 
 services:
-  youtube_downloader:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: youtube_downloader
+  app:
+    build: .
+    container_name: your_app_name  # Replace with a name for your app
     ports:
-      - "5000:5000"  # Map container port 5000 to host port 5000
+      - "5000:5000"  # Maps port 5000 in the container to port 5000 on the host
     volumes:
-      - downloads:/app/downloads  # Persist downloads on the host machine
+      - .:/app  # Mounts the current directory to the container
     environment:
-      - FLASK_ENV=production
+      - FLASK_ENV=development  # Optional: Set environment variable for Flask or your app
+    restart: unless-stopped  # Restart the container unless explicitly stopped
+    networks:
+      - casaos_network  # Use a predefined CasaOS network, adjust if needed
 
-volumes:
-  downloads:
+networks:
+  casaos_network:
+    external: true  # Assuming CasaOS has an external network, adjust if different
