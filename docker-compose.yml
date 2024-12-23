@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   youtube_downloader:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: python:3.10-slim  # Use the official Python slim image
     container_name: youtube_downloader
     working_dir: /app
     environment:
@@ -13,10 +11,9 @@ services:
       - "5000:5000"  # Map container port 5000 to host port 5000
     volumes:
       - downloads:/app/downloads  # Persist downloads on the host machine
-    entrypoint: >
-      /bin/bash -c "
-      git clone https://github.com/Emeraldfalco/YT-Video-Downloader-Thing.git /app &&
-      cd /app &&
+    command: >
+      sh -c "
+      git clone https://github.com/Emeraldfalco/YT-Video-Downloader-Thing.git . &&
       pip install --no-cache-dir -r requirements.txt &&
       python app.py
       "
