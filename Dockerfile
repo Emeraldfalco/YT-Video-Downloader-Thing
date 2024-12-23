@@ -10,12 +10,12 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory
 WORKDIR /app
 
+# Clone the repository
+RUN git clone https://github.com/Emeraldfalco/YT-Video-Downloader-Thing.git .
+
 # Install Python dependencies
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the application code
-COPY . .
 
 # Expose the port
 EXPOSE 5000

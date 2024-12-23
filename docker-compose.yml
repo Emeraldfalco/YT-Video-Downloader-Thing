@@ -3,11 +3,11 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: your_app_name  # Replace with a name for your app
+    container_name: yt_video_downloader_app  # Replace with a name for your app
     ports:
       - "5000:5000"  # Maps port 5000 in the container to port 5000 on the host
     volumes:
-      - .:/app  # Mounts the current directory to the container
+      - .:/app  # Mounts the current directory to the container (optional in this case)
     environment:
       - FLASK_ENV=development  # Optional: Set environment variable for Flask or your app
     restart: unless-stopped  # Restart the container unless explicitly stopped
