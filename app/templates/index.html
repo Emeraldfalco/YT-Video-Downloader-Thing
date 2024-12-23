@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+</head>
+<body>
+    <h1>YouTube Downloader</h1>
+    <form id="downloadForm">
+        <input type="text" id="url" placeholder="Enter YouTube URL" required>
+        <button type="button" onclick="download()">Download Video</button>
+        <button type="button" onclick="downloadSubtitles()">Download Subtitles</button>
+    </form>
+    <div id="response"></div>
+    <script>
+        async function download() {
+            const url = document.getElementById('url').value;
+            const response = await fetch('/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url }),
+            });
+            const data = await response.json();
+            if (data.filename) {
+                window.location.href = `/download-file/${data.filename}`;
+            } else {
+                document.getElementById('response').innerText = JSON.stringify(data);
+            }
+        }
+
+        async function downloadSubtitles() {
+            const url = document.getElementById('url').value;
+            const response = await fetch('/subtitles', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url }),
+            });
+            const data = await response.json();
+            if (data.filename) {
+                window.location.href = `/download-file/${data.filename}`;
+            } else {
+                document.getElementById('response').innerText = JSON.stringify(data);
+            }
+        }
+    </script>
+</body>
+</html>
